@@ -1,0 +1,367 @@
+<!--
+/*
+* Copyright 2017 SideeX committers
+*
+*  Licensed under the Apache License, Version 2.0 (the "License");
+*  you may not use this file except in compliance with the License.
+*  You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+*  Unless required by applicable law or agreed to in writing, software
+*  distributed under the License is distributed on an "AS IS" BASIS,
+*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+*  See the License for the specific language governing permissions and
+*  limitations under the License.
+*
+*/
+-->
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <!-- TODO: Change the title bar text -->
+    <title>AutoBDD Developer</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700" rel="stylesheet">
+
+    <link rel="stylesheet" href="panel/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="panel/js/codemirror-5.31.0/lib/codemirror.css">
+    <link rel="stylesheet" href="panel/css/layout.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="panel/css/font-awesome.min.css">
+    
+    <!-- to hide right button feature -->
+    <!--[if lt IE 9]>
+    <link rel="stylesheet" href="panel/css/ie.css" type="text/css" media="screen" />
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <script src="utils.js"></script>
+    <script src="atoms.js"></script>
+    <script src="selenium-api.js"></script>
+
+    <script type="text/javascript" src="panel/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="panel/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="panel/js/hideshow.js"></script>
+    <script type="text/javascript" src="panel/js/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="panel/js/jquery.equalHeight.js"></script>
+    <script type="text/javascript" src="panel/js/jquery.tabletab.js"></script>
+    <script type="text/javascript" src="panel/js/colResizable-1.5.min.js"></script>
+    <script type="text/javascript" src="panel/js/panelSetting.js"></script>
+    <script type="text/javascript" src="panel/js/sortable-ui.js"></script>
+    <script type="text/javascript" src="panel/js/codemirror-5.31.0/lib/codemirror.js"></script>
+    <script type="text/javascript" src="panel/js/codemirror-5.31.0/mode/clike/clike.js"></script>
+    <script type="text/javascript" src="panel/js/codemirror-5.31.0/mode/groovy/groovy.js"></script>
+    <script type="text/javascript" src="panel/js/codemirror-5.31.0/mode/python/python.js"></script>
+    <script type="text/javascript" src="panel/js/codemirror-5.31.0/mode/ruby/ruby.js"></script>
+
+    <script src="panel/js/selenium-ide/testCase.js"></script>
+</head>
+<!-- TODO: Make whole panel size flexible -->
+
+<body>
+    <header id="header" style="display:none">
+        <hgroup>
+            <img class="logo_img" src="./icons/logo_16@2x.png"></img>
+            <span class="title">AutoBDD Developer</span>
+        </hgroup>
+    </header>
+    <!-- end of header bar -->
+    <!-- right button feature -->
+    
+    <section id="main" class="column">
+        <div id="toolbar-container" class="submit_link">
+            <!-- hidden, because it has default style -->
+            <input id="load-testSuite-hidden" type="file" multiple accept="text/*" style="display: none"></input>
+            <input id="load-testSuite-show" type="button" value="OpenSuite" style="display: none"></input>
+            <button id="save-testSuite" style="display: none"> Save Scenario</button>
+            <button id="close-testSuite" style="display: none"> Delete Scenario</button>
+            <button id="add-testSuite" style="display: none">+ Scenario</button>
+            <button id="add-testCase" style="display: none">+ Test Step</button>
+            <button id="delete-testCase" style="display: none">- Test Step</button>
+            <a download="info.html" id="downloadlink" style="display: none">Download</a>
+            <ul class="toolbar-items">
+                
+                    <div>
+                        <img class="logo_img" src="./icons/logo_16@2x.png"></img>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;
+                    </div>
+					          
+				<li id="new">
+                    <div>
+                        <img class="img_btn" src="./panel/images/new-icon.png"></img> Add New Step </div>
+                </li>
+                <li id="record" title="Click and navigate to the desired browser tab and record your tests.">
+                    <div>
+                        <img class="img_btn" src="./panel/images/record-icon.png"></img> Record Test </div>
+                </li>
+                <li id="playback" title="Run selected test case on the active tab, any interference may stop the process.">
+                    <div>
+                        <img class="img_btn" src="./panel/images/play-icon.png"></img> Run Test</div>
+                </li>
+                <li id="stop" style="display: none;">
+                    <div>
+                        <img class="img_btn stop-btn-pulse" src="./panel/images/stop-icon.png"></img> Stop Test </div>
+                </li>
+                <li id="pause" style="display: none;">
+                    <div>
+                        <img class="img_btn" src="./panel/images/pause_24.png"></img> Pause Test </div>
+                </li>
+                <li id="resume" style="display: none;">
+                    <div>
+                        <img class="img_btn" src="./panel/images/refresh_24.png"></img> Resume Test </div>
+                </li>
+                <li id="playSuites" style="display: none;">
+                    <div>
+                        <img class="img_btn" src="./panel/images/play-icon.png"></img> Run All Scenarios </div>
+                </li>
+                <li id="export">
+                    <div>
+                        <img class="img_btn" src="./panel/images/export-icon.png"></img> Export Test 	</div>
+                </li>
+            </ul>
+            <ul class="toolbar-items" id="right-toolbar-items">
+                <li id="settings">
+                    <div>
+                        <img class="img_btn" src="./panel/images/setting-icon.png"></img>
+                    </div>
+                </li>
+                <li id="help" class="link-button">
+                    <a id="help-link" href="https://www.katalon.com/automation-recorder" target="_blank">
+                        <img class="img_btn" src="./panel/images/help-icon.png"></img>
+                    </a>
+                </li>
+            </ul>
+
+            <div id="generateToScriptsDialog" title="Export Test Case as Script">
+                <label for="select-script-language-id">Language &amp; Framework </label>
+                <select id="select-script-language-id" class="select-script-language">
+                    <option value="cs-wd-nunit">C# (WebDriver + NUnit)</option>
+                    <option value="java-wd-testng">Java (WebDriver + TestNG)</option>
+                    <option value="java-wd-junit">Java (WebDriver + JUnit)</option>
+                    <option value="java-rc-junit">Java (WebDriver-backed Remote Control + JUnit)</option>
+                    <option value="katalon" selected>Katalon Studio</option>
+                    <option value="python2-wd-unittest">Python 2 (WebDriver + unittest)</option>
+                    <option value="robot">Robot Framework</option>
+                    <option value="ruby-wd-rspec">Ruby (WebDriver + RSpec)</option>
+                </select>
+                <div class="kat clear">Katalon Studio is a Free Automation tool includes all required features to makes Selenium and Appium automation easy for teams with limited coding capability to apply GUI, Mobile and API testings.</div>
+                <textarea id="txt-script-id" class="txt-script">scripts</textarea>
+            </div>
+            
+            <button id="playSuite" class="sub_btn" style="display: none; width: 21%"><i class="" aria-hidden="true"></i> PlayThisSuite</button>
+            <!-- TODO: Add a stop button -->
+        </div>
+        <div class="module_all">
+            <div class="module_middle">
+                <article class="width_quarter module_right">
+                    <div id="middle-container" class="module">
+                        <header>
+                            <h3>Features</h3>
+                        </header>
+                        <div id="testCase-container" class="case_list">
+                            <div id="suite-grid-menu" class="menu">
+                                <ul>
+                                    <li id="load-testSuite-show-menu"><a href="#">Open Feature File</a></li>
+                                    <li id="add-testSuite-menu"><a href="#">Create New Scenario</a></li>
+                                </ul>
+                            </div>
+                            <!-- Sug: Add animation when dragdrop -->
+                            <div id="testCase-grid" class="module_content">
+                                <!--<div class="message"><strong>Suite</strong>
+                                    <p>Case</p>
+                                    <p class="modified">Case</p>
+                                </div>
+                                <div class="message"><strong>Suite</strong>
+                                    <p>Case</p>
+                                </div>
+                                <div class="message"><strong>Suite</strong>
+                                    <p>Case</p>
+                                </div>
+                                <div class="message"><strong>Suite</strong>
+                                    <p>Case</p>
+                                </div>
+                                <div class="message"><strong>Suite</strong>
+                                    <p>Case</p>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end of messages article -->
+                    <article id="result-container" class="module">
+                        <div class="fieldset">
+                            <div class="result-row">
+                                <label id="result1">Pass: </label>
+                                <span id="result-runs" class="runs">0</span>
+                            </div>
+                            <div class="result-row">
+                                <label id="result2">Fail: </label>
+                                <span id="result-failures" class="failures">0</span>
+                            </div>
+                        </div>
+                    </article>
+                </article>
+                <article class="module width_3_quarter">
+                    <div id="command-container" class="tab_content case_hight">
+                        <div class="smallSection">
+                            <table id="command-grid" class="tablesorter" cellspacing="0">
+                                <!-- TODO: Make the width flexible -->
+                                <thead>
+                                    <tr>
+                                        <th style="width: 23%">Command<div class="border"></div></th>
+                                        <th style="width: 40%">Target<div class="border"></div></th>
+                                        <th style="width: 37%">Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="records-grid">
+                                    <!-- TODO: Make only tbody scoll -->
+                                    <input id="records-count" type="hidden" value="0"></input>
+                                    <!-- set input and /tbody in same line to avoid textNode -->
+                                    <!--<tr>
+                                        <td>time</td>
+                                        <td>open</td>
+                                        <td>1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>time</td>
+                                        <td>open</td>
+                                        <td>2</td>
+                                    </tr>
+                                    <tr>
+                                        <td>time</td>
+                                        <td>open</td>
+                                        <td>3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>time</td>
+                                        <td>open</td>
+                                        <td>4</td>
+                                    </tr>
+                                    <tr>
+                                        <td>time</td>
+                                        <td>open</td>
+                                        <td>5</td>
+                                    </tr>
+                                    <tr>
+                                        <td>time</td>
+                                        <td>open</td>
+                                        <td>6</td>
+                                    </tr>
+                                    <tr>
+                                        <td>time</td>
+                                        <td>open</td>
+                                        <td>7</td>
+                                    </tr>
+                                    <tr>
+                                        <td>time</td>
+                                        <td>open</td>
+                                        <td>8</td>
+                                    </tr>
+                                    <tr>
+                                        <td>time</td>
+                                        <td>open</td>
+                                        <td>9</td>
+                                    </tr>
+                                    <tr>
+                                        <td>time</td>
+                                        <td>open</td>
+                                        <td>10</td>
+                                    </tr>
+                                    <tr>
+                                        <td>time</td>
+                                        <td>open</td>
+                                        <td>11</td>
+                                    </tr>
+                                    <tr>
+                                        <td>time</td>
+                                        <td>open</td>
+                                        <td>12</td>
+                                    </tr>-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="command-toolbar">
+                        <div id="command-grid-menu">
+                            <ul>
+                                <li id="grid-add"><a href="#">Add</a></li>
+                                <li id="grid-delete"><a href="#">Delete</a></li>
+                                <li id="grid-deleteAll"><a href="#">Delete All</a></li>
+                            </ul>
+                            <ul>
+                                <li id="selectElementButton"><a href="#">Select</a></li>
+                                <li id="showElementButton"><a href="#">Find</a></li>
+                            </ul>
+                        </div>
+                        <div class="fieldset">
+                            <!-- TODO: make (command &) target selectable -->
+                            <div class="command-row">
+                                <label>Command</label>
+                                <input id="command-command" list="command-command-list" type="text"><i id="command-" class="fa fa-chevron-down" aria-hidden="true"></i>
+                                <div id="command-dropdown" class="w3-dropdown-content w3-bar-block">
+                                </div>
+                            </div>
+                            <datalist id="command-command-list">
+                            </datalist>
+                            <div class="command-row">
+                                <label>Target</label>
+                                <input id="command-target" list="command-target-list" type="text"><i id="target-" class="fa fa-chevron-down" aria-hidden="true"></i>
+                                <div id="target-dropdown" class="w3-dropdown-content w3-bar-block">
+                                </div>
+                            </div>
+                            <datalist id="command-target-list">
+                            </datalist>
+                            <div class="command-row">
+                                <label>Value</label>
+                                <input id="command-value" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end of #command-container -->
+                </article>
+            </div>
+            <article class="module width_full">
+                <header class="tabs_involved">
+                    <ul class="tabs">
+                        <li id="show-log" class="active"><a>Console</a></li>
+                        <li id="show-reference"><a>Reference</a></li>
+                    </ul>
+                    <a id="clear-log" href="#">Clear</a>
+                </header>
+                <div id="tab4" class="tab_content case_roll">
+                    <div class="module_content">
+                        <div id="logcontainer">
+                        </div>
+                        <div id="reference-container">
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <!-- end of styles article -->
+        </div>
+        <!--<div class="spacer"></div>-->
+    </section>
+    <!-- script -->
+    <script src="browser-polyfill.js"></script>
+    <script src="IO/load_file.js"></script>
+    <script src="IO/save_file.js"></script>
+    <script src="panel/js/context_menu.js"></script>
+    <script src="panel/js/command_grid.js"></script>
+    <script src="panel/js/command_grid_toolbar.js"></script>
+    <script src="panel/js/testcase_grid.js"></script>
+    <script src="panel/js/log.js"></script>
+    <script src="panel/js/settings.js"></script>
+    <script src="ext-command.js"></script>
+    <script src="initial.js"></script>
+    <script src="escape.js"></script>
+    <script src="editor.js"></script>
+    <script src="locatorBuilders.js"></script>
+    <script src="formatCommand.js"></script>
+    <!-- playback -->
+    <script type="text/javascript" src="playback-api.js"></script>
+	
+</body>
+
+</html>

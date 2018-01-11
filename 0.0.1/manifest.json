@@ -1,0 +1,42 @@
+{
+   "background": {
+      "scripts": [ "browser-polyfill.js", "background.js", "AutoBDD/constants.js", "AutoBDD/chrome_variables_default.js", "AutoBDD/chrome_variables_init.js", "AutoBDD/chrome_common.js", "AutoBDD/background.js" ]
+   },
+   "browser_action": {
+      "default_icon": "icons/logo_16@2x.png",
+      "default_title": "AutoBDD"
+   },
+   "content_scripts": [ {
+      "all_frames": true,
+      "js": [ "atoms.js", "utils.js", "selenium-commandhandlers.js", "selenium-browserbot.js", "escape.js", "selenium-api.js", "locatorBuilders.js", "record-api.js", "record.js", "commands-api.js", "targetSelecter.js" ],
+      "match_about_blank": true,
+      "matches": [ "\u003Call_urls>" ]
+   }, {
+      "all_frames": true,
+      "js": [ "browser-polyfill.js", "prompt-injecter.js" ],
+      "match_about_blank": true,
+      "matches": [ "\u003Call_urls>" ],
+      "run_at": "document_start"
+   }, {
+      "all_frames": true,
+      "js": [ "AutoBDD/jquery-3.2.1.min.js", "AutoBDD/jquery.color.js", "AutoBDD/constants.js", "AutoBDD/chrome_variables_default.js", "AutoBDD/chrome_variables_init.js", "AutoBDD/chrome_common.js", "AutoBDD/common.js", "AutoBDD/record_common.js", "AutoBDD/chrome_setup.js", "AutoBDD/dom_inspector.js", "AutoBDD/dom_collector.js", "AutoBDD/dom_recorder.js", "AutoBDD/process_element.js", "AutoBDD/main.js" ],
+      "match_about_blank": true,
+      "matches": [ "http://*/*", "https://*/*" ]
+   } ],
+   "content_security_policy": "script-src 'self'; object-src 'self'",
+   "description": "Powerful Selenium IDE to record, debug, play tests in any browser. Compatible with C#, Java, Ruby, Python, Groovy, Robot Framework.",
+   "homepage_url": "https://www.AutoBDD.com/",
+   "icons": {
+      "128": "AutoBDD/images/branding_128.png",
+      "16": "AutoBDD/images/branding_16.png",
+      "48": "AutoBDD/images/branding_48.png"
+   },
+   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApPBt0KSi9NMDRIecv0hJc/Qd+lNiG1OH23YppKEtBxtrBLM34ytpdfUx5uLS9bRQMagFQe3/eNL4nD0xRBsix/OPyDnCXKk4PR4Ck3AuTOVCr6b7cdnKe4l5DCmQvZNW56WntrkUaWkvNtmfuGpWPPiHxUcJQnEBnwktbNaSBDUnjLmHqsJBlON4OnGCexNe8keLQ8ukXPVkEcpWgiCZftMwDj9NQgy5z+nhyWED0li/bavNLe4lHAa/pxf71Y1wUk5dXk1974cXu72oOdgOYbemFCwjyltm4Np3ip7vpbgiJEmONU8j6uQsU8VGkjtN6hqyrIhYzN0UYoznGTWsdwIDAQAB",
+   "manifest_version": 2,
+   "name": "AutoBDD Recorder (Selenium IDE for Chrome)",
+   "options_page": "AutoBDD/options.html",
+   "permissions": [ "tabs", "activeTab", "webRequest", "contextMenus", "downloads", "webNavigation", "notifications", "http://*/", "https://*/", "storage", "unlimitedStorage" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "2.0.7",
+   "web_accessible_resources": [ "prompt.js" ]
+}
